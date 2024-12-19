@@ -1,0 +1,1 @@
+All default process folders are created as subfolders in a main process folder which is set in the Config-file -> Constants Sheet -> 'ProcessFilesFolder'

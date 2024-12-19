@@ -1,0 +1,850 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="SendExceptionMail_AR" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:uasc="clr-namespace:UiPath.Activities.System.Collections;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:um="clr-namespace:UiPath.Mail;assembly=UiPath.Mail.Activities" xmlns:umab="clr-namespace:UiPath.Mail.Activities.Business;assembly=UiPath.Mail.Activities" xmlns:umam="clr-namespace:UiPath.MicrosoftOffice365.Activities.Mail;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umame="clr-namespace:UiPath.MicrosoftOffice365.Activities.Mail.Enums;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:upr="clr-namespace:UiPath.Platform.ResourceHandling;assembly=UiPath.Platform" xmlns:usau="clr-namespace:UiPath.Shared.Activities.Utils;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Config Dictionary containing all configurable information from the config-file" Name="in_dict_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property sap2010:Annotation.AnnotationText="Filepath to a logfile which can be attached" Name="in_str_PathToLogFile" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="filepath to an exception screenshot that should be attached" Name="in_str_PathToScreenshot" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Contains your custom message from the config" Name="in_str_CfgMailCustomMessage" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Contains the thrown exception, if there is any" Name="in_exc_Exception" Type="InArgument(s:Exception)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1544.6666666666667,1421.3333333333333</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ExceptionHandling_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="54">
+      <x:String>ActiproSoftware.Windows.Controls.SyntaxEditor.IntelliPrompt.Implementation</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.Web</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>UiPath.Mail</x:String>
+      <x:String>UiPath.Mail.Outlook.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>UiPath.Platform</x:String>
+      <x:String>UiPath.Activities.System.Collections</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Mail.Enums</x:String>
+      <x:String>UiPath.Shared.Activities.Utils</x:String>
+      <x:String>UiPath.Mail.Activities.Business</x:String>
+      <x:String>UiPath.Shared.Activities.ConnectionService.Contracts</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Mail</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="112">
+      <AssemblyReference>ActiproSoftware.SyntaxEditor.Wpf</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.Net.Primitives</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Web</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>UiPath.CodedWorkflows</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:Annotation.AnnotationText="This workflow sends error mails for both System Exceptions and Business Rule Exceptions. It only attaches a log-file and screenshot if the exception is a SystemException. This workflow can both send mails over Outlook Desktop App and SMTP, depending on the settings in the config-file." DisplayName="SendExceptionMail_AR" sap:VirtualizedContainerService.HintSize="1701.3333333333333,855.3333333333334" sap2010:WorkflowViewState.IdRef="Flowchart_2">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="x:String" Name="str_HtmlMailTemplate" />
+      <Variable x:TypeArguments="x:String" Name="str_HtmlMailContent" />
+      <Variable x:TypeArguments="ss:SecureString" Name="secstr_CfgSMTPPassword" />
+      <Variable x:TypeArguments="x:String" Name="str_CfgSMTPUser" />
+      <Variable x:TypeArguments="x:String" Default="accelerated\Exception-Template-%Language%_AR.html" Name="str_CfgFileNameEmailTemplate" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="listStr_AttachmentsCollection" />
+    </Flowchart.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <av:Point x:Key="ShapeLocation">655,5</av:Point>
+        <av:Size x:Key="ShapeSize">50,50</av:Size>
+        <av:PointCollection x:Key="ConnectorLocation">680,55 680,85 675,85 675,187</av:PointCollection>
+        <x:Double x:Key="Height">1274.2666666666667</x:Double>
+        <x:Double x:Key="Width">1520.6666666666667</x:Double>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Flowchart.StartNode>
+      <x:Reference>__ReferenceID16</x:Reference>
+    </Flowchart.StartNode>
+    <FlowDecision x:Name="__ReferenceID13" Condition="[in_exc_exception.GetType.ToString.ToLower.Contains(&quot;businessruleexception&quot;)]" DisplayName="Business Rule Exception?" sap:VirtualizedContainerService.HintSize="60.666666666666664,60.666666666666664" sap2010:WorkflowViewState.IdRef="FlowDecision_3">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <av:Point x:Key="ShapeLocation">652,460</av:Point>
+          <av:Size x:Key="ShapeSize">60.666666666666664,60.666666666666664</av:Size>
+          <av:PointCollection x:Key="TrueConnector">652,490 622,490 622,513.2 492.4,513.2</av:PointCollection>
+          <x:String x:Key="TrueLabel">BRE</x:String>
+          <x:String x:Key="FalseLabel">SE</x:String>
+          <av:PointCollection x:Key="FalseConnector">712,490 742,490 742,513.2 838,513.2</av:PointCollection>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <FlowDecision.True>
+        <FlowStep x:Name="__ReferenceID12" sap2010:WorkflowViewState.IdRef="FlowStep_96">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">382,478</av:Point>
+              <av:Size x:Key="ShapeSize">110,70</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">382,513.2 260,513.2 260,560</av:PointCollection>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Switch x:TypeArguments="x:String" DisplayName="Switch | Language BRE Mail Body" Expression="[in_dict_Config(&quot;EmailTemplateLanguage&quot;).ToString]" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="Switch`1_3">
+            <Assign x:Key="English" DisplayName="Assign | Insert BRE MailBody in MailTemplate_English" sap:VirtualizedContainerService.HintSize="261.714285714286,61.1428571428571" sap2010:WorkflowViewState.IdRef="Assign_144">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[str_HtmlMailContent]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[str_HtmlMailContent.Replace("%MailBody%","&lt;br&gt;" &amp; in_str_CfgMailCustomMessage &amp; "&lt;br&gt;&lt;br&gt;Error cause: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Message.ToString).ToString &amp; "&lt;br&gt;&lt;br&gt;" &amp; "&lt;/pre&gt;")]</InArgument>
+              </Assign.Value>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Assign>
+            <Assign x:Key="German" DisplayName="Assign | Insert BRE MailBody in MailTemplate_German" sap:VirtualizedContainerService.HintSize="261.714285714286,61.1428571428571" sap2010:WorkflowViewState.IdRef="Assign_145">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[str_htmlMailContent]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[str_htmlMailContent.Replace("%MailBody%","&lt;br&gt;" &amp; in_str_CfgMailCustomMessage &amp; "&lt;br&gt;&lt;br&gt;Fehlerursache: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Message.ToString).ToString &amp; "&lt;br&gt;&lt;br&gt;" &amp; "&lt;/pre&gt;")]</InArgument>
+              </Assign.Value>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Assign>
+            <Assign x:Key="Spanish" DisplayName="Assign | Insert BRE MailBody in MailTemplate_Spanish" sap:VirtualizedContainerService.HintSize="261.714285714286,61.1428571428571" sap2010:WorkflowViewState.IdRef="Assign_146">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[str_htmlMailContent]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[str_htmlMailContent.Replace("%MailBody%","&lt;br&gt;" &amp; in_str_CfgMailCustomMessage &amp; "&lt;br&gt;&lt;br&gt;La causa del error: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Message.ToString).ToString &amp; "&lt;br&gt;&lt;br&gt;" &amp; "&lt;/pre&gt;")]</InArgument>
+              </Assign.Value>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Assign>
+          </Switch>
+          <FlowStep.Next>
+            <FlowDecision x:Name="__ReferenceID4" Condition="[convert.ToBoolean(in_dict_Config(&quot;UseOutlook&quot;))]" DisplayName="Use Outlook?" sap:VirtualizedContainerService.HintSize="60.666666666666664,60.666666666666664" sap2010:WorkflowViewState.IdRef="FlowDecision_4">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <av:Point x:Key="ShapeLocation">230,560</av:Point>
+                  <av:Size x:Key="ShapeSize">60.666666666666664,60.666666666666664</av:Size>
+                  <av:PointCollection x:Key="TrueConnector">230,590 120.2,590 120.2,895</av:PointCollection>
+                  <av:PointCollection x:Key="FalseConnector">290.6666666666667,590.3333333333334 320.6666666666667,590.3333333333334 320.6666666666667,716.7333333333333 389.6,716.7333333333333</av:PointCollection>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <FlowDecision.True>
+                <FlowStep x:Name="__ReferenceID14">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <av:Point x:Key="ShapeLocation">65,895</av:Point>
+                      <av:Size x:Key="ShapeSize">110,70</av:Size>
+                      <av:PointCollection x:Key="ConnectorLocation">120.2,965.4 120.2,1238.8 630,1238.8</av:PointCollection>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:SendOutlookMail Bcc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Account="[in_dict_Config(&quot;Exception_Mail_Sender_Outlook&quot;).ToString]" Body="[str_htmlMailContent]" Cc="[In_dict_Config(&quot;BRE_Mail_ReceiverCC&quot;).ToString]" DisplayName="Send BE Mail Message" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" Importance="Normal" IsBodyHtml="True" IsDraft="False" Sensitivity="Normal" Subject="[In_dict_Config(&quot;BRE_Mail_Subject&quot;).ToString]" To="[In_dict_Config(&quot;BRE_Mail_Receiver&quot;).ToString]">
+                    <ui:SendOutlookMail.Files>
+                      <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4" />
+                    </ui:SendOutlookMail.Files>
+                  </ui:SendOutlookMail>
+                  <FlowStep.Next>
+                    <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_94">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <av:Point x:Key="ShapeLocation">630,1203.6</av:Point>
+                          <av:Size x:Key="ShapeSize">110,70</av:Size>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log message" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;## End of SendExceptionMail_AR.xaml ##&quot;]">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:LogMessage>
+                    </FlowStep>
+                  </FlowStep.Next>
+                </FlowStep>
+              </FlowDecision.True>
+              <FlowDecision.False>
+                <FlowDecision x:Name="__ReferenceID7" Condition="[convert.ToBoolean(in_dict_Config(&quot;SMTP_UseCredentialForSMTPLogin&quot;))]" DisplayName="Use Orch. Credential?" sap:VirtualizedContainerService.HintSize="60.666666666666664,60.666666666666664" sap2010:WorkflowViewState.IdRef="FlowDecision_6">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <av:Point x:Key="ShapeLocation">389.6,686.4</av:Point>
+                      <av:Size x:Key="ShapeSize">60.666666666666664,60.666666666666664</av:Size>
+                      <av:PointCollection x:Key="TrueConnector">389.6,716.4 295.2,716.4 295.2,844.5</av:PointCollection>
+                      <av:PointCollection x:Key="FalseConnector">450.2666666666667,716.7333333333333 525.3333333333334,716.7333333333333 525.3333333333334,994.5</av:PointCollection>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <FlowDecision.True>
+                    <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_79">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <av:Point x:Key="ShapeLocation">240,844.5</av:Point>
+                          <av:Size x:Key="ShapeSize">110,70</av:Size>
+                          <av:PointCollection x:Key="ConnectorLocation">295.2,914.9 295.2,994.5</av:PointCollection>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Get SMTP-Credential&#xA;&#xA;REWORK!" DisplayName="Invoke GetAppCredentials workflow" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\GetAppCredentials.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <OutArgument x:TypeArguments="x:String" x:Key="out_str_Username">[str_CfgSMTPUser]</OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_str_Credential">[In_dict_Config("SMTP_LoginCredential_Orchestrator").ToString]</InArgument>
+                          <OutArgument x:TypeArguments="ss:SecureString" x:Key="out_secstr_Password">[secstr_CfgSMTPPassword]</OutArgument>
+                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dict_Config">[in_dict_Config]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:InvokeWorkflowFile>
+                      <FlowStep.Next>
+                        <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_68">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <av:Point x:Key="ShapeLocation">240,994.5</av:Point>
+                              <av:Size x:Key="ShapeSize">110,70</av:Size>
+                              <av:PointCollection x:Key="ConnectorLocation">295.2,1064.9 295.2,1238.8 630,1238.8</av:PointCollection>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:SendMail Bcc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" Result="{x:Null}" SecurePassword="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" sap2010:Annotation.AnnotationText="Attachments needed? Any transaction files such as PDF or Excel?" Body="[str_htmlMailContent]" Cc="[In_dict_Config(&quot;BRE_Mail_ReceiverCC&quot;).ToString]" DisplayName="Send SMTP Mail Message" Email="[str_CfgSMTPUser]" EnableSSL="True" From="[In_dict_Config(&quot;SMTP_Mail&quot;).ToString]" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="SendMail_1" IgnoreCRL="False" IsBodyHtml="True" Name="[In_dict_Config(&quot;RobotName&quot;).ToString]" Password="[new System.Net.NetworkCredential(string.Empty, secstr_CfgSMTPPassword).Password]" Port="[convert.ToInt32(In_dict_Config(&quot;SMTP_Port&quot;))]" SecureConnection="SslOnConnect" Server="[In_dict_Config(&quot;SMTP_Host&quot;).ToString]" Subject="[In_dict_Config(&quot;BRE_Mail_Subject&quot;).ToString]" To="[In_dict_Config(&quot;BRE_Mail_Receiver&quot;).ToString]">
+                            <ui:SendMail.Files>
+                              <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4" />
+                            </ui:SendMail.Files>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:SendMail>
+                          <FlowStep.Next>
+                            <x:Reference>__ReferenceID0</x:Reference>
+                          </FlowStep.Next>
+                        </FlowStep>
+                      </FlowStep.Next>
+                    </FlowStep>
+                  </FlowDecision.True>
+                  <FlowDecision.False>
+                    <FlowStep x:Name="__ReferenceID8" sap2010:WorkflowViewState.IdRef="FlowStep_91">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <av:Point x:Key="ShapeLocation">470,994.5</av:Point>
+                          <av:Size x:Key="ShapeSize">110,70</av:Size>
+                          <av:PointCollection x:Key="ConnectorLocation">525.2,1064.9 525.2,1238.8 630,1238.8</av:PointCollection>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:SendMail Bcc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" Result="{x:Null}" SecurePassword="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" sap2010:Annotation.AnnotationText="Attachments needed? Any transaction files such as PDF or Excel?" Body="[str_htmlMailContent]" Cc="[In_dict_Config(&quot;BRE_Mail_ReceiverCC&quot;).ToString]" DisplayName="Send SMTP Mail Message" Email="[in_dict_Config(&quot;SMTP_User&quot;).ToString]" EnableSSL="True" From="[In_dict_Config(&quot;SMTP_Mail&quot;).ToString]" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="SendMail_3" IgnoreCRL="False" IsBodyHtml="True" Name="[In_dict_Config(&quot;RobotName&quot;).ToString]" Password="[in_dict_Config(&quot;SMTP_Password&quot;).ToString]" Port="[convert.ToInt32(In_dict_Config(&quot;SMTP_Port&quot;))]" SecureConnection="SslOnConnect" Server="[In_dict_Config(&quot;SMTP_Host&quot;).ToString]" Subject="[In_dict_Config(&quot;BRE_Mail_Subject&quot;).ToString]" To="[In_dict_Config(&quot;BRE_Mail_Receiver&quot;).ToString]">
+                        <ui:SendMail.Files>
+                          <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4" />
+                        </ui:SendMail.Files>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:SendMail>
+                      <FlowStep.Next>
+                        <x:Reference>__ReferenceID0</x:Reference>
+                      </FlowStep.Next>
+                    </FlowStep>
+                  </FlowDecision.False>
+                </FlowDecision>
+              </FlowDecision.False>
+            </FlowDecision>
+          </FlowStep.Next>
+        </FlowStep>
+      </FlowDecision.True>
+      <FlowDecision.False>
+        <FlowStep x:Name="__ReferenceID11" sap2010:WorkflowViewState.IdRef="FlowStep_95">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">838,478</av:Point>
+              <av:Size x:Key="ShapeSize">110,70</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">948.4,513.2 1158,513.2 1158,610</av:PointCollection>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Switch x:TypeArguments="x:String" DisplayName="Switch | Language SE Mail Body" Expression="[in_dict_Config(&quot;EmailTemplateLanguage&quot;).ToString]" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="Switch`1_2">
+            <Assign x:Key="English" DisplayName="Assign | Insert SE MailBody in MailTemplate_English" sap:VirtualizedContainerService.HintSize="433.6,81.6" sap2010:WorkflowViewState.IdRef="Assign_140">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[str_HtmlMailContent]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[str_HtmlMailContent.Replace("%MailBody%","&lt;br&gt;" &amp; in_str_CfgMailCustomMessage &amp; "&lt;br&gt;&lt;br&gt;Message - Process Details: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Message.ToString).ToString &amp; "&lt;br&gt;&lt;br&gt;Message - Activity source: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Source).ToString &amp; "&lt;/pre&gt;&lt;br&gt;")]</InArgument>
+              </Assign.Value>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Assign>
+            <Assign x:Key="German" DisplayName="Assign | Insert SE MailBody in MailTemplate_German" sap:VirtualizedContainerService.HintSize="433.6,80.8" sap2010:WorkflowViewState.IdRef="Assign_141">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[str_htmlMailContent]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[str_htmlMailContent.Replace("%MailBody%","&lt;br&gt;" &amp; in_str_CfgMailCustomMessage &amp; "&lt;br&gt;&lt;br&gt;Meldung - Prozesstechnische Details: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Message.ToString).ToString &amp; "&lt;br&gt;&lt;br&gt;Meldung - Activity source: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Source).ToString &amp; "&lt;/pre&gt;&lt;br&gt;")]</InArgument>
+              </Assign.Value>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Assign>
+            <Assign x:Key="Spanish" DisplayName="Assign | Insert SE MailBody in MailTemplate_Spanish" sap:VirtualizedContainerService.HintSize="433.6,80.8" sap2010:WorkflowViewState.IdRef="Assign_147">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[str_htmlMailContent]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[str_htmlMailContent.Replace("%MailBody%","&lt;br&gt;" &amp; in_str_CfgMailCustomMessage &amp; "&lt;br&gt;&lt;br&gt;Mensaje - Detalles técnicos del proceso: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Message.ToString).ToString &amp; "&lt;br&gt;&lt;br&gt;Notificación - Fuente de actividad: &lt;br&gt;" &amp; WebUtility.HtmlEncode(in_exc_exception.Source).ToString &amp; "&lt;/pre&gt;&lt;br&gt;")]</InArgument>
+              </Assign.Value>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Assign>
+          </Switch>
+          <FlowStep.Next>
+            <FlowDecision x:Name="__ReferenceID5" Condition="[convert.ToBoolean(in_dict_Config(&quot;UseOutlook&quot;))]" DisplayName="Use Outlook?" sap:VirtualizedContainerService.HintSize="60.666666666666664,60.666666666666664" sap2010:WorkflowViewState.IdRef="FlowDecision_5">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <av:Point x:Key="ShapeLocation">1128,610</av:Point>
+                  <av:Size x:Key="ShapeSize">60.666666666666664,60.666666666666664</av:Size>
+                  <av:PointCollection x:Key="TrueConnector">1128,640 860.2,640 860.2,915</av:PointCollection>
+                  <av:PointCollection x:Key="FalseConnector">1188.6666666666667,640.3333333333334 1218.6666666666667,640.3333333333334 1218.6666666666667,736.7333333333333 1269.6,736.7333333333333</av:PointCollection>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <FlowDecision.True>
+                <FlowStep x:Name="__ReferenceID15">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <av:Point x:Key="ShapeLocation">805,915</av:Point>
+                      <av:Size x:Key="ShapeSize">110,70</av:Size>
+                      <av:PointCollection x:Key="ConnectorLocation">860.2,985.4 860.2,1238.8 740.4,1238.8</av:PointCollection>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:SendOutlookMail Bcc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Account="[in_dict_Config(&quot;Exception_Mail_Sender_Outlook&quot;).ToString]" AttachmentsCollection="[listStr_AttachmentsCollection]" Body="[str_htmlMailContent]" Cc="[In_dict_Config(&quot;SE_Mail_ReceiverCC&quot;).ToString]" DisplayName="Send SE Mail Message" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="SendOutlookMail_2" Importance="Normal" IsBodyHtml="True" IsDraft="False" Sensitivity="Normal" Subject="[In_dict_Config(&quot;SE_Mail_Subject&quot;).ToString]" To="[In_dict_Config(&quot;SE_Mail_Receiver&quot;).ToString]">
+                    <ui:SendOutlookMail.Files>
+                      <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4" />
+                    </ui:SendOutlookMail.Files>
+                  </ui:SendOutlookMail>
+                  <FlowStep.Next>
+                    <x:Reference>__ReferenceID0</x:Reference>
+                  </FlowStep.Next>
+                </FlowStep>
+              </FlowDecision.True>
+              <FlowDecision.False>
+                <FlowDecision x:Name="__ReferenceID10" Condition="[convert.ToBoolean(in_dict_Config(&quot;SMTP_UseCredentialForSMTPLogin&quot;))]" DisplayName="Use Orch. Credential?" sap:VirtualizedContainerService.HintSize="60.666666666666664,60.666666666666664" sap2010:WorkflowViewState.IdRef="FlowDecision_7">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <av:Point x:Key="ShapeLocation">1269.6,706.4</av:Point>
+                      <av:Size x:Key="ShapeSize">60.666666666666664,60.666666666666664</av:Size>
+                      <av:PointCollection x:Key="TrueConnector">1269.6,736.4 1239.6,736.4 1239.6,879.7 1150.4,879.7</av:PointCollection>
+                      <av:PointCollection x:Key="FalseConnector">1330.2666666666667,736.7333333333333 1355.3333333333333,736.7333333333333 1355.3333333333333,994.5</av:PointCollection>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <FlowDecision.True>
+                    <FlowStep x:Name="__ReferenceID6" sap2010:WorkflowViewState.IdRef="FlowStep_81">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <av:Point x:Key="ShapeLocation">1040,844.5</av:Point>
+                          <av:Size x:Key="ShapeSize">110,70</av:Size>
+                          <av:PointCollection x:Key="ConnectorLocation">1095.2,914.9 1095.2,993.6</av:PointCollection>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Get SMTP-Credential&#xA;&#xA;REWORK!" DisplayName="Invoke GetAppCredentials workflow" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Framework\GetAppCredentials.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <OutArgument x:TypeArguments="x:String" x:Key="out_str_Username">[str_CfgSMTPUser]</OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_str_Credential">[In_dict_Config("SMTP_LoginCredential_Orchestrator").ToString]</InArgument>
+                          <OutArgument x:TypeArguments="ss:SecureString" x:Key="out_secstr_Password">[secstr_CfgSMTPPassword]</OutArgument>
+                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dict_Config">[in_dict_Config]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:InvokeWorkflowFile>
+                      <FlowStep.Next>
+                        <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_69">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <av:Point x:Key="ShapeLocation">1040,993.6</av:Point>
+                              <av:Size x:Key="ShapeSize">110,70</av:Size>
+                              <av:PointCollection x:Key="ConnectorLocation">1095.2,1064 1095.2,1238.8 740.4,1238.8</av:PointCollection>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:SendMail Bcc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" Result="{x:Null}" SecurePassword="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" sap2010:Annotation.AnnotationText="Attachments needed? Any transaction files such as PDF or Excel?" AttachmentsCollection="[listStr_AttachmentsCollection]" Body="[str_htmlMailContent]" Cc="[in_dict_Config(&quot;SE_Mail_ReceiverCC&quot;).ToString]" DisplayName="Send SMTP Mail Message" Email="[str_CfgSMTPUser]" EnableSSL="True" From="[in_dict_Config(&quot;SMTP_Mail&quot;).ToString]" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="SendMail_2" IgnoreCRL="False" IsBodyHtml="True" Name="[in_dict_Config(&quot;RobotName&quot;).ToString]" Password="[new System.Net.NetworkCredential(string.Empty, secstr_CfgSMTPPassword).Password]" Port="[convert.ToInt32(In_dict_Config(&quot;SMTP_Port&quot;))]" SecureConnection="SslOnConnect" Server="[in_dict_Config(&quot;SMTP_Host&quot;).ToString]" Subject="[In_dict_Config(&quot;SE_Mail_Subject&quot;).ToString]" To="[in_dict_Config(&quot;SE_Mail_Receiver&quot;).ToString]">
+                            <ui:SendMail.Files>
+                              <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4" />
+                            </ui:SendMail.Files>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:SendMail>
+                          <FlowStep.Next>
+                            <x:Reference>__ReferenceID0</x:Reference>
+                          </FlowStep.Next>
+                        </FlowStep>
+                      </FlowStep.Next>
+                    </FlowStep>
+                  </FlowDecision.True>
+                  <FlowDecision.False>
+                    <FlowStep x:Name="__ReferenceID9" sap2010:WorkflowViewState.IdRef="FlowStep_92">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <av:Point x:Key="ShapeLocation">1300,994.5</av:Point>
+                          <av:Size x:Key="ShapeSize">110,70</av:Size>
+                          <av:PointCollection x:Key="ConnectorLocation">1355.2,1064.9 1355.2,1238.8 740.4,1238.8</av:PointCollection>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:SendMail Bcc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" Result="{x:Null}" SecurePassword="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" sap2010:Annotation.AnnotationText="Attachments needed? Any transaction files such as PDF or Excel?" AttachmentsCollection="[listStr_AttachmentsCollection]" Body="[str_htmlMailContent]" Cc="[In_dict_Config(&quot;SE_Mail_ReceiverCC&quot;).ToString]" DisplayName="Send SMTP Mail Message" Email="[in_dict_Config(&quot;SMTP_User&quot;).ToString]" EnableSSL="True" From="[In_dict_Config(&quot;SMTP_Mail&quot;).ToString]" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="SendMail_4" IgnoreCRL="False" IsBodyHtml="True" Name="[In_dict_Config(&quot;RobotName&quot;).ToString]" Password="[in_dict_Config(&quot;SMTP_Password&quot;).ToString]" Port="[convert.ToInt32(In_dict_Config(&quot;SMTP_Port&quot;))]" SecureConnection="SslOnConnect" Server="[In_dict_Config(&quot;SMTP_Host&quot;).ToString]" Subject="[In_dict_Config(&quot;SE_Mail_Subject&quot;).ToString]" To="[In_dict_Config(&quot;SE_Mail_Receiver&quot;).ToString]">
+                        <ui:SendMail.Files>
+                          <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4" />
+                        </ui:SendMail.Files>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:SendMail>
+                      <FlowStep.Next>
+                        <x:Reference>__ReferenceID0</x:Reference>
+                      </FlowStep.Next>
+                    </FlowStep>
+                  </FlowDecision.False>
+                </FlowDecision>
+              </FlowDecision.False>
+            </FlowDecision>
+          </FlowStep.Next>
+        </FlowStep>
+      </FlowDecision.False>
+    </FlowDecision>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID2</x:Reference>
+    <x:Reference>__ReferenceID3</x:Reference>
+    <x:Reference>__ReferenceID4</x:Reference>
+    <x:Reference>__ReferenceID5</x:Reference>
+    <x:Reference>__ReferenceID6</x:Reference>
+    <x:Reference>__ReferenceID7</x:Reference>
+    <x:Reference>__ReferenceID8</x:Reference>
+    <x:Reference>__ReferenceID9</x:Reference>
+    <x:Reference>__ReferenceID10</x:Reference>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID11</x:Reference>
+    <x:Reference>__ReferenceID12</x:Reference>
+    <FlowStep x:Name="__ReferenceID16">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">620,187</av:Point>
+          <av:Size x:Key="ShapeSize">110,70</av:Size>
+          <av:PointCollection x:Key="ConnectorLocation">675.2,257.4 675.2,287.4 682,287.4 682,460</av:PointCollection>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Sequence DisplayName="Sequence | Init Files and Attachments" sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:LogMessage DisplayName="Log message" sap:VirtualizedContainerService.HintSize="450,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;# Start SendExceptionMail_AR.xaml #&quot;]">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </ui:LogMessage>
+        <ui:ReadTextFile File="{x:Null}" Content="[str_htmlMailTemplate]" DisplayName="Read text file" FileName="[str_CfgFileNameEmailTemplate.Replace(&quot;%Language%&quot;,in_dict_Config(&quot;EmailTemplateLanguage&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="450,114" sap2010:WorkflowViewState.IdRef="ReadTextFile_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </ui:ReadTextFile>
+        <Assign DisplayName="Assign | Insert RobotName in MailTemplate" sap:VirtualizedContainerService.HintSize="450,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_148">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:String">[str_htmlMailContent]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:String">[str_htmlMailTemplate.Replace("%RobotName%",In_dict_Config("RobotName").ToString)]</InArgument>
+          </Assign.Value>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Assign>
+        <Assign DisplayName="Assign | New Attachment Collection" sap:VirtualizedContainerService.HintSize="450,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_149">
+          <Assign.To>
+            <OutArgument x:TypeArguments="scg:List(x:String)">[listStr_AttachmentsCollection]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="scg:List(x:String)">[new List(of String)]</InArgument>
+          </Assign.Value>
+        </Assign>
+        <If Condition="[Not string.IsNullOrEmpty(in_str_PathToScreenshot.Trim)]" DisplayName="If | Add Screenshot to Attachment Collection" sap:VirtualizedContainerService.HintSize="450,652.6666666666666" sap2010:WorkflowViewState.IdRef="If_1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If.Then>
+            <If Condition="[file.Exists(in_str_PathToScreenshot)]" DisplayName="If | Path to Screenshot exists" sap:VirtualizedContainerService.HintSize="368,354" sap2010:WorkflowViewState.IdRef="If_2">
+              <If.Then>
+                <AddToCollection x:TypeArguments="x:String" Collection="[listStr_AttachmentsCollection]" DisplayName="Add To Collection | Attachments" sap:VirtualizedContainerService.HintSize="203.33333333333334,25.333333333333332" sap2010:WorkflowViewState.IdRef="AddToCollection`1_5" Item="[in_str_PathToScreenshot]" />
+              </If.Then>
+              <If.Else>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Warn" Message="[&quot;Failed to add Screenshot to exception email &quot;]" />
+              </If.Else>
+            </If>
+          </If.Then>
+          <If.Else>
+            <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="416,104.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_2">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Sequence>
+          </If.Else>
+        </If>
+        <If Condition="[Not string.IsNullOrEmpty(in_str_PathToLogFile.Trim)]" DisplayName="If | Add Log File to Attachment Collection" sap:VirtualizedContainerService.HintSize="450,643.3333333333334" sap2010:WorkflowViewState.IdRef="If_4">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If.Then>
+            <If Condition="[file.Exists(in_str_PathToLogFile)]" DisplayName="If | Path to Screenshot exists" sap:VirtualizedContainerService.HintSize="368,354" sap2010:WorkflowViewState.IdRef="If_3">
+              <If.Then>
+                <AddToCollection x:TypeArguments="x:String" Collection="[listStr_AttachmentsCollection]" DisplayName="Add To Collection | Attachments" sap:VirtualizedContainerService.HintSize="203.33333333333334,25.333333333333332" sap2010:WorkflowViewState.IdRef="AddToCollection`1_2" Item="[in_str_PathToLogFile]" />
+              </If.Then>
+              <If.Else>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Warn" Message="[&quot;Failed to add Logfile to exception email &quot;]" />
+              </If.Else>
+            </If>
+          </If.Then>
+          <If.Else>
+            <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="416,104.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Sequence>
+          </If.Else>
+        </If>
+      </Sequence>
+      <FlowStep.Next>
+        <x:Reference>__ReferenceID13</x:Reference>
+      </FlowStep.Next>
+    </FlowStep>
+    <FlowStep>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">145,745</av:Point>
+          <av:Size x:Key="ShapeSize">110,70</av:Size>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:CommentOut sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+        <ui:CommentOut.Body>
+          <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_7">
+            <umab:ExchangeApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" SharedMailbox="{x:Null}" Account="abhijeet.garnayak@roboyo.in" DisplayName="O365 | Send BRE mail" EmailAddress="abhijeet.garnayak@roboyo.in" sap:VirtualizedContainerService.HintSize="110.4,70.4" sap2010:WorkflowViewState.IdRef="ExchangeApplicationCard_1" UseConnectionService="False">
+              <umab:ExchangeApplicationCard.ApplicationId>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </umab:ExchangeApplicationCard.ApplicationId>
+              <umab:ExchangeApplicationCard.Body>
+                <ActivityAction x:TypeArguments="um:IMailQuickHandle">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="um:IMailQuickHandle" Name="Exchange" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Send BRE mail" sap:VirtualizedContainerService.HintSize="416,671.2" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <umam:SendMailConnections ArgumentAttachmentPaths="{x:Null}" AttachmentList="{x:Null}" AttachmentPaths="{x:Null}" Attachments="{x:Null}" Bcc="{x:Null}" ConnectionAccountName="{x:Null}" ContinueOnError="{x:Null}" Mailbox="{x:Null}" ReplyTo="{x:Null}" TextBody="{x:Null}" AttachmentInputMode="Existing" AuthScopesInvalid="False" Body="[str_htmlMailContent]" Cc="[In_dict_Config(&quot;BRE_Mail_ReceiverCC&quot;).ToString.split(&quot;;&quot;c)]" ConnectionId="d7513dec-ebd8-4dbe-8d5f-b068a6a79f69" DisplayName="Send O365 Email" sap:VirtualizedContainerService.HintSize="353.6,582.4" sap2010:WorkflowViewState.IdRef="SendMailConnections_1" Importance="Normal" InputType="HTML" SaveAsDraft="False" Subject="[In_dict_Config(&quot;BRE_Mail_Subject&quot;).ToString]" To="[In_dict_Config(&quot;BRE_Mail_Receiver&quot;).ToString.Split(&quot;;&quot;c)]" UseConnectionService="True" UseSharedMailbox="False">
+                      <umam:SendMailConnections.AttachmentsBackup>
+                        <usau:BackupSlot x:TypeArguments="umame:AttachmentInputMode" StoredValue="Existing">
+                          <usau:BackupSlot.BackupValues>
+                            <scg:List x:TypeArguments="x:Object" x:Key="Existing" Capacity="1">
+                              <x:Null />
+                            </scg:List>
+                            <scg:List x:TypeArguments="x:Object" x:Key="Builder" Capacity="1">
+                              <x:Null />
+                            </scg:List>
+                          </usau:BackupSlot.BackupValues>
+                        </usau:BackupSlot>
+                      </umam:SendMailConnections.AttachmentsBackup>
+                      <umam:SendMailConnections.InputTypeBackup>
+                        <usau:BackupSlot x:TypeArguments="umame:BodyInputType" StoredValue="HTML">
+                          <usau:BackupSlot.BackupValues>
+                            <scg:List x:TypeArguments="x:Object" x:Key="HTML" Capacity="1">
+                              <InArgument x:TypeArguments="x:String">[in_dict_Config("StatusReport_Mail_CustomMessage").ToString]</InArgument>
+                            </scg:List>
+                            <scg:List x:TypeArguments="x:Object" x:Key="TEXT" Capacity="1">
+                              <x:Null />
+                            </scg:List>
+                          </usau:BackupSlot.BackupValues>
+                        </usau:BackupSlot>
+                      </umam:SendMailConnections.InputTypeBackup>
+                      <umam:SendMailConnections.MailboxBackup>
+                        <usau:BackupSlot x:TypeArguments="umame:MailboxSelectionMode" StoredValue="NoMailbox">
+                          <usau:BackupSlot.BackupValues>
+                            <scg:Dictionary x:TypeArguments="umame:MailboxSelectionMode, scg:List(x:Object)" />
+                          </usau:BackupSlot.BackupValues>
+                        </usau:BackupSlot>
+                      </umam:SendMailConnections.MailboxBackup>
+                    </umam:SendMailConnections>
+                  </Sequence>
+                </ActivityAction>
+              </umab:ExchangeApplicationCard.Body>
+              <umab:ExchangeApplicationCard.TenantId>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </umab:ExchangeApplicationCard.TenantId>
+            </umab:ExchangeApplicationCard>
+          </Sequence>
+        </ui:CommentOut.Body>
+      </ui:CommentOut>
+    </FlowStep>
+    <FlowStep>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">895,735</av:Point>
+          <av:Size x:Key="ShapeSize">110,70</av:Size>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:CommentOut sap:VirtualizedContainerService.HintSize="110,70" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+        <ui:CommentOut.Body>
+          <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="688,1762.4" sap2010:WorkflowViewState.IdRef="Sequence_8">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <umab:ExchangeApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" SharedMailbox="{x:Null}" Account="abhijeet.garnayak@roboyo.in" DisplayName="O365 | Send SE mail" EmailAddress="abhijeet.garnayak@roboyo.in" sap:VirtualizedContainerService.HintSize="625.6,1673.6" sap2010:WorkflowViewState.IdRef="ExchangeApplicationCard_2" UseConnectionService="False">
+              <umab:ExchangeApplicationCard.ApplicationId>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </umab:ExchangeApplicationCard.ApplicationId>
+              <umab:ExchangeApplicationCard.Body>
+                <ActivityAction x:TypeArguments="um:IMailQuickHandle">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="um:IMailQuickHandle" Name="Exchange" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Send SE mail" sap:VirtualizedContainerService.HintSize="592,1384" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="scg:IEnumerable(upr:IResource)" Name="ienumAttachments" />
+                    </Sequence.Variables>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each attachment to be sent" sap:VirtualizedContainerService.HintSize="529.6,712.8" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[listStr_AttachmentsCollection]">
+                      <ui:ForEach.Body>
+                        <ActivityAction x:TypeArguments="x:String">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="x:String" Name="attachment" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Bring attachments together" sap:VirtualizedContainerService.HintSize="496,515.2" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="upr:ILocalResource" Name="attachmentResource" />
+                              <Variable x:TypeArguments="upr:IResource[]" Name="arrResource_Attachments" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:PathExists Exists="{x:Null}" DisplayName="Path Exists | attachment" sap:VirtualizedContainerService.HintSize="433.6,148" sap2010:WorkflowViewState.IdRef="PathExists_2" Path="[attachment]" PathType="File" Resource="[attachmentResource]" />
+                            <uasc:AppendItemToCollection x:TypeArguments="upr:IResource" Collection="[arrResource_Attachments]" DisplayName="Append attachment to Collection" sap:VirtualizedContainerService.HintSize="433.6,173.6" sap2010:WorkflowViewState.IdRef="AppendItemToCollection`1_2">
+                              <uasc:AppendItemToCollection.Items>
+                                <scg:List x:TypeArguments="InArgument(upr:IResource)" Capacity="4">
+                                  <InArgument x:TypeArguments="upr:IResource">[attachmentResource]</InArgument>
+                                </scg:List>
+                              </uasc:AppendItemToCollection.Items>
+                            </uasc:AppendItemToCollection>
+                            <Assign DisplayName="Assign | ienumAttachments" sap:VirtualizedContainerService.HintSize="433.6,104.8" sap2010:WorkflowViewState.IdRef="Assign_151">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="scg:IEnumerable(upr:IResource)">[ienumAttachments]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="scg:IEnumerable(upr:IResource)">[arrResource_Attachments.AsEnumerable]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEach.Body>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:ForEach>
+                    <umam:SendMailConnections ArgumentAttachmentPaths="{x:Null}" AttachmentList="{x:Null}" AttachmentPaths="{x:Null}" Bcc="{x:Null}" ConnectionAccountName="{x:Null}" ContinueOnError="{x:Null}" Mailbox="{x:Null}" ReplyTo="{x:Null}" TextBody="{x:Null}" AttachmentInputMode="Existing" Attachments="[ienumAttachments]" AuthScopesInvalid="False" Body="[str_htmlMailContent]" Cc="[In_dict_Config(&quot;SE_Mail_ReceiverCC&quot;).ToString.split(&quot;;&quot;c)]" ConnectionId="d7513dec-ebd8-4dbe-8d5f-b068a6a79f69" DisplayName="Send O365 Email" sap:VirtualizedContainerService.HintSize="529.6,582.4" sap2010:WorkflowViewState.IdRef="SendMailConnections_2" Importance="Normal" InputType="HTML" SaveAsDraft="False" Subject="[in_dict_Config(&quot;SE_Mail_Subject&quot;).ToString]" To="[In_dict_Config(&quot;SE_Mail_Receiver&quot;).ToString.Split(&quot;;&quot;c)]" UseConnectionService="True" UseSharedMailbox="False">
+                      <umam:SendMailConnections.AttachmentsBackup>
+                        <usau:BackupSlot x:TypeArguments="umame:AttachmentInputMode" StoredValue="Existing">
+                          <usau:BackupSlot.BackupValues>
+                            <scg:List x:TypeArguments="x:Object" x:Key="Existing" Capacity="1">
+                              <x:Null />
+                            </scg:List>
+                            <scg:List x:TypeArguments="x:Object" x:Key="Builder" Capacity="1">
+                              <x:Null />
+                            </scg:List>
+                          </usau:BackupSlot.BackupValues>
+                        </usau:BackupSlot>
+                      </umam:SendMailConnections.AttachmentsBackup>
+                      <umam:SendMailConnections.InputTypeBackup>
+                        <usau:BackupSlot x:TypeArguments="umame:BodyInputType" StoredValue="HTML">
+                          <usau:BackupSlot.BackupValues>
+                            <scg:List x:TypeArguments="x:Object" x:Key="HTML" Capacity="1">
+                              <InArgument x:TypeArguments="x:String">[in_dict_Config("StatusReport_Mail_CustomMessage").ToString]</InArgument>
+                            </scg:List>
+                            <scg:List x:TypeArguments="x:Object" x:Key="TEXT" Capacity="1">
+                              <x:Null />
+                            </scg:List>
+                          </usau:BackupSlot.BackupValues>
+                        </usau:BackupSlot>
+                      </umam:SendMailConnections.InputTypeBackup>
+                      <umam:SendMailConnections.MailboxBackup>
+                        <usau:BackupSlot x:TypeArguments="umame:MailboxSelectionMode" StoredValue="NoMailbox">
+                          <usau:BackupSlot.BackupValues>
+                            <scg:Dictionary x:TypeArguments="umame:MailboxSelectionMode, scg:List(x:Object)" />
+                          </usau:BackupSlot.BackupValues>
+                        </usau:BackupSlot>
+                      </umam:SendMailConnections.MailboxBackup>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </umam:SendMailConnections>
+                  </Sequence>
+                </ActivityAction>
+              </umab:ExchangeApplicationCard.Body>
+              <umab:ExchangeApplicationCard.TenantId>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </umab:ExchangeApplicationCard.TenantId>
+            </umab:ExchangeApplicationCard>
+          </Sequence>
+        </ui:CommentOut.Body>
+      </ui:CommentOut>
+    </FlowStep>
+    <x:Reference>__ReferenceID14</x:Reference>
+    <x:Reference>__ReferenceID15</x:Reference>
+  </Flowchart>
+</Activity>

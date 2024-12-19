@@ -1,0 +1,1 @@
+﻿Good Afternoon, <br> <br> BR005| Someone else has made a batch within 10 minutes prior to a different user making a batch. <br> <br> The bot will not be allowed to create a batch <br> <br> Kind Regards, <br> CDS

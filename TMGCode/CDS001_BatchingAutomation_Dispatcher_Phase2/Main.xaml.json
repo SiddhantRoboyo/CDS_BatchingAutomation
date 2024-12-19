@@ -1,0 +1,117 @@
+{
+  "DisplayName": "Main",
+  "Tooltip": null,
+  "HelpLink": null,
+  "Color": null,
+  "OriginalIconFileName": null,
+  "Arguments": [
+    {
+      "Name": "in_str_SEEmailReciever",
+      "DisplayName": "in_str_SEEmailReciever",
+      "Category": null,
+      "Tooltip": "Systeme exception email reciever, option to rewrite config",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_str_BREMailReciever",
+      "DisplayName": "in_str_BREMailReciever",
+      "Category": null,
+      "Tooltip": "Business Rule exception email reciever",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_str_SREmailReciever",
+      "DisplayName": "in_str_SREmailReciever",
+      "Category": null,
+      "Tooltip": "Status report email receiver ",
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_bool_TestMode",
+      "DisplayName": "in_bool_TestMode",
+      "Category": null,
+      "Tooltip": "Flag indicating whether process should be executed on test mode or not.",
+      "Placeholder": "True",
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_bool_DevMode",
+      "DisplayName": "in_bool_DevMode",
+      "Category": null,
+      "Tooltip": "Flag indicating whether process should be executed on dev mode or not.",
+      "Placeholder": "False",
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_OrchestratorQueueFolder",
+      "DisplayName": "in_OrchestratorQueueFolder",
+      "Category": null,
+      "Tooltip": "Allows the Orchestrator folder name where the queue is created to be passed as an argument, instead of only being defined in the configuration file.",
+      "Placeholder": "Shared/CDS_Batching",
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "Accelerated_SendExceptionMail_AR_xaml__SendMailConnections_1_Connection0",
+      "DisplayName": "SendMailConnections_1_Connection",
+      "Category": null,
+      "Tooltip": "Send O365 Email",
+      "Placeholder": null,
+      "Widget": "Connection",
+      "IsRequired": true,
+      "IsPrincipal": true,
+      "ArgumentType": 1,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_Check",
+      "DisplayName": "in_Check",
+      "Category": null,
+      "Tooltip": null,
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    },
+    {
+      "Name": "in_bool_CompanyCDS",
+      "DisplayName": "in_bool_CompanyCDS",
+      "Category": null,
+      "Tooltip": null,
+      "Placeholder": null,
+      "Widget": null,
+      "IsRequired": false,
+      "IsPrincipal": true,
+      "ArgumentType": 0,
+      "DataSourceItems": null
+    }
+  ]
+}
